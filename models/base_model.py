@@ -4,10 +4,18 @@ from datetime import datetime
 from uuid import uuid4
 
 class BaseModel:
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         self.id = str(uuid4())
+        time_format = "%Y-%m-%dT%H:%M:%S.%f"
         self.created_at = datetime.today()
         self.updated_at = datetime.today()
+        if len(kwargs) != 0:
+            for key, value in kwargs.items():
+                if key == "created_at" or key == "updated_at":
+                    self.__dict__[key] = datetime.strptime(value, time_format)
+                else:
+                    self.__dict__[key] = value
+
 
     def save(self):
         self.updated_at = datetime.today()
