@@ -1,32 +1,41 @@
 #!/usr/bin/python3
 
+"""
+Base of EVERYTHING
+"""
+
+import uuid
 from datetime import datetime
-from uuid import uuid4
-
-class BaseModel:
-    def __init__(self, *args, **kwargs):
-        self.id = str(uuid4())
-        time_format = "%Y-%m-%dT%H:%M:%S.%f"
-        self.created_at = datetime.today()
-        self.updated_at = datetime.today()
-        if len(kwargs) != 0:
-            for key, value in kwargs.items():
-                if key == "created_at" or key == "updated_at":
-                    self.__dict__[key] = datetime.strptime(value, time_format)
-                else:
-                    self.__dict__[key] = value
 
 
-    def save(self):
-        self.updated_at = datetime.today()
+class BaseModel():
+    """
+    Base of classes
+    """
+
+    def __init__(self):
+        """
+        constructor
+        """
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = self.created_at
 
     def __str__(self):
-        class_name = self.__class__.__name__
-        return "[{}] ({}) {}".format(class_name, self.id, self.__dict__)
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
+
+    def save(self):
+        """
+        saving updated time
+        """
+        self.updated_at = datetime.now()
 
     def to_dict(self):
-        dic = self.__dict__.copy()
-        dic["__class__"] = self.__class__.__name__
-        dic["created_at"] = self.created_at.isoformat()
-        dic["updated_at"] = self.updated_at.isoformat()
-        return dic
+        """
+        to dictionary
+        """
+        sdic = self.__dict__.copy()
+        sdic["__class__"] = self.__class__.__name__
+        sdic["created_at"] = self.created_at.isoformat()
+        sdic["updated_at"] = self.updated_at.isoformat()
+        return sdic
