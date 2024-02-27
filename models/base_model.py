@@ -4,8 +4,8 @@
 Base of EVERYTHING
 """
 
-#import uuid
-from datetime import datetime
+import uuid
+from datetime import datetime as dt
 
 
 class BaseModel():
@@ -13,13 +13,20 @@ class BaseModel():
     Base of classes
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         constructor
         """
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = self.created_at
+        if kwargs:
+            for k, v in kwargs.items():
+                if k in ("created_at", "updated_at"):
+                    self.__dict__[k] = dt.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+                elif k != "__class__":
+                    self.__dict__[k] = v
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = dt.now()
+            self.updated_at = self.created_at
 
     def __str__(self):
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
@@ -28,7 +35,7 @@ class BaseModel():
         """
         saving updated time
         """
-        self.updated_at = datetime.now()
+        self.updated_at = dt.now()
 
     def to_dict(self):
         """
