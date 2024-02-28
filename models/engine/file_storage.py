@@ -44,7 +44,7 @@ class FileStorage:
         try:
 
             with open(FileStorage.__file_path) as file:
-                deserialize = json.load(file)
+                deserialized = json.load(file)
                 for obj_values in deserialized.values():
                     class_name = obj_values["__class__"]
                     del obj_values["__class__"]
