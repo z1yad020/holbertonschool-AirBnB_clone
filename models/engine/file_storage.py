@@ -44,10 +44,11 @@ class FileStorage:
         try:
 
             with open(FileStorage.__file_path) as file:
-                loaded = json.load(file)
-                for o in loaded.values():
-                    class_name = o["__class__"]
-                    del o["__class__"]
-                    self.new(eval(class_name)(**o))
+                deserialize = json.load(file)
+                for obj_values in deserialized.values():
+                    class_name = obj_values["__class__"]
+                    del obj_values["__class__"]
+                    if isinstance(class_name, str) and type(eval(class_name)) == type:
+                            self.new(eval(class_name)(**obj_values))
         except FileNotFoundError:
             return
