@@ -48,7 +48,8 @@ class FileStorage:
                 for obj_values in deserialized.values():
                     class_name = obj_values["__class__"]
                     del obj_values["__class__"]
-                    if isinstance(class_name, str) and type(eval(class_name)) == type:
-                            self.new(eval(class_name)(**obj_values))
+                    # if isinstance(class_name, str)
+                    # and type(eval(class_name)) == type:
+                    self.new(eval(class_name)(**obj_values))
         except FileNotFoundError:
             return

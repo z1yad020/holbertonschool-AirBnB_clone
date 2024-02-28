@@ -12,10 +12,11 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 
+
 class HBNBCommand(cmd.Cmd):
     """Class HBNBCommand"""
 
-    prompt = "(hbnb)"
+    prompt = "(hbnb) "
     classes = {
             'BaseModel': BaseModel,
             'User': User,
@@ -25,21 +26,26 @@ class HBNBCommand(cmd.Cmd):
             'Place': Place,
             'Review': Review
     }
-            
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
+
         return True
+
     def do_EOF(self, arg):
         """EOF command to exit the program"""
+
         print()
         return True
+
     def emptyline(self):
         """Does nothing if empty line"""
+
         pass
 
     def do_create(self, arg):
         """Creates a class instance and prints id"""
+
         args = arg.split()
         if not args:
             print("** class name missing **")
@@ -50,11 +56,11 @@ class HBNBCommand(cmd.Cmd):
             instance.save()
             print(instance.id)
 
-
     def do_show(self, arg):
         """String representation of an instance"""
+
         args = arg.split()
-        if not args: 
+        if not args:
             print("** class name missing **")
         elif args[0] not in self.classes:
             print("** class doesn't exist **")
@@ -70,6 +76,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, arg):
         """Deletes an instance of the class"""
+
         args = arg.split()
         if not args:
             print("** class name missing **")
@@ -88,6 +95,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         """ Print string representation of all instances"""
+
         args = arg.split()
         objects = storage.all()
         if len(args) == 0:
@@ -113,7 +121,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             key = f"{args[0]}.{args[1]}"
             objects = storage.all()
-            if key not in all_objs:
+            if key not in objects:
                 print("** no instance found **")
             elif len(args) == 3:
                 print("** value missing **")
@@ -124,9 +132,6 @@ class HBNBCommand(cmd.Cmd):
                 a_value = a_type(args[3].strip('"'))
                 setattr(obj, a_name, a_value)
                 obj.save()
-
-
-    
 
 
 if __name__ == '__main__':
