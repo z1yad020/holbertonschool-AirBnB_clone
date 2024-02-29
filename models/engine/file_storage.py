@@ -42,7 +42,6 @@ class FileStorage:
         """deserializes the JSON file to __objects"""
 
         try:
-
             with open(FileStorage.__file_path) as file:
                 deserialized = json.load(file)
                 for obj_values in deserialized.values():
